@@ -1,8 +1,8 @@
-import { app } from "./app.ts";
 import dotenv from "dotenv";
 dotenv.config();
-// create server
+
+import { app } from "./app";
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server is connected with port ${process.env.PORT}`);
+  console.log(`Express running with PORt ${process.env.PORT}`);
 });
