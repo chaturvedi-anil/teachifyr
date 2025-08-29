@@ -21,6 +21,11 @@ interface IActivationRequest {
   activation_code: string;
 }
 
+interface ILoginRequest {
+  email: string;
+  password: string;
+}
+
 //------------------------------Controller-------------------------------------------------------
 export const registrationUser = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -101,5 +106,23 @@ export const activateUser = CatchAsyncErrors(
       success: true,
       message: "Account create successfully",
     });
+  }
+);
+
+// login
+export const loginUser = CatchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body as ILoginRequest;
+
+    const isUserExit = await userModel.findOne({ email });
+    if (!isUserExit) {
+      return next(new ErrorHandler(`Invalid email or password`, 401));
+    }
+
+    // password verify
+    const isPasswordMatch = await isUserExit.comparePassword(password);
+    if (!isPasswordMatch) {
+      return next(new ErrorHandler(`Invalid email or password`, 401));
+    }
   }
 );

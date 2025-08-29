@@ -11,5 +11,6 @@ router.post(
   registrationUser
 );
 router.post("/activate-user", validateRequest(activationSchema), activateUser);
+router.post("/login");
 
 export default router;
