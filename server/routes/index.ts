@@ -9,6 +9,7 @@ import {
   activateUser,
   loginUser,
   registrationUser,
+  userLogout,
 } from "../controllers/user.controller";
 
 const router = express.Router();
@@ -20,5 +21,7 @@ router.post(
 );
 router.post("/activate-user", validateRequest(activationSchema), activateUser);
 router.post("/login", validateRequest(loginSchema), loginUser);
+("");
+router.get("/logout", userLogout);
 
 export default router;

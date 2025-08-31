@@ -131,3 +131,15 @@ export const loginUser = CatchAsyncErrors(
     sendToken(user, 200, res);
   }
 );
+
+export const userLogout = CatchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
+    res.cookie("access_token", "", { maxAge: 1 });
+    res.cookie("refresh_token", "", { maxAge: 1 });
+
+    res.status(200).json({
+      success: true,
+      message: "Logged out successfullys",
+    });
+  }
+);
