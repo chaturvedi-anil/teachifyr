@@ -4,6 +4,7 @@ import userModel, { IUser } from "../models/user.model";
 import ErrorHandler from "../utils/ErrorHandler";
 import { CatchAsyncErrors } from "../middleware/catchAsyncErorrs";
 import sendMail from "../utils/sendMail";
+import { sendToken } from "../utils/jwt";
 
 //---------------------Types.........-------------------------------------------------------------
 interface IRegistrationBody {
@@ -114,15 +115,19 @@ export const loginUser = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body as ILoginRequest;
 
-    const isUserExit = await userModel.findOne({ email });
-    if (!isUserExit) {
+    const user = await userModel.findOne({ email }).select("+password");
+
+    if (!user) {
       return next(new ErrorHandler(`Invalid email or password`, 401));
     }
 
     // password verify
-    const isPasswordMatch = await isUserExit.comparePassword(password);
+    const isPasswordMatch = await user.comparePassword(password);
+
     if (!isPasswordMatch) {
       return next(new ErrorHandler(`Invalid email or password`, 401));
     }
+
+    sendToken(user, 200, res);
   }
 );

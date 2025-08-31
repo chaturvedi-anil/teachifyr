@@ -1,7 +1,15 @@
 import express from "express";
 import { validateRequest } from "../middleware/validateRequest";
-import { registrationSchema, activationSchema } from "../schemas/auth.schema";
-import { activateUser, registrationUser } from "../controllers/user.controller";
+import {
+  registrationSchema,
+  activationSchema,
+  loginSchema,
+} from "../schemas/auth.schema";
+import {
+  activateUser,
+  loginUser,
+  registrationUser,
+} from "../controllers/user.controller";
 
 const router = express.Router();
 
@@ -11,6 +19,6 @@ router.post(
   registrationUser
 );
 router.post("/activate-user", validateRequest(activationSchema), activateUser);
-router.post("/login");
+router.post("/login", validateRequest(loginSchema), loginUser);
 
 export default router;
