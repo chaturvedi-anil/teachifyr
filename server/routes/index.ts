@@ -9,6 +9,7 @@ import {
   activateUser,
   loginUser,
   registrationUser,
+  updateAccessToken,
   userLogout,
 } from "../controllers/user.controller";
 import { isAtuhenticated, autherizeRole } from "../middleware/auth";
@@ -23,6 +24,7 @@ router.post(
 router.post("/activate-user", validateRequest(activationSchema), activateUser);
 router.post("/login", validateRequest(loginSchema), loginUser);
 ("");
-router.get("/logout", isAtuhenticated, autherizeRole("admin"), userLogout);
+router.get("/logout", isAtuhenticated, userLogout);
+router.get("/refresh", updateAccessToken);
 
 export default router;
