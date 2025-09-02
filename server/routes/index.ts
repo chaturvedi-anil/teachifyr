@@ -11,7 +11,7 @@ import {
   registrationUser,
   userLogout,
 } from "../controllers/user.controller";
-import { isAtuhenticated } from "../middleware/auth";
+import { isAtuhenticated, autherizeRole } from "../middleware/auth";
 
 const router = express.Router();
 
@@ -23,6 +23,6 @@ router.post(
 router.post("/activate-user", validateRequest(activationSchema), activateUser);
 router.post("/login", validateRequest(loginSchema), loginUser);
 ("");
-router.get("/logout", isAtuhenticated, userLogout);
+router.get("/logout", isAtuhenticated, autherizeRole("admin"), userLogout);
 
 export default router;

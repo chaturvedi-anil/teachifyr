@@ -137,9 +137,13 @@ export const userLogout = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     res.cookie("access_token", "", { maxAge: 1 });
     res.cookie("refresh_token", "", { maxAge: 1 });
-    const userId = req.user?.id;
-    // deleting user from redis
-    redis.del(userId);
+
+    const userId = req.user?._id;
+
+    if (userId) {
+      // deleting user from redis
+      await redis.del(userId);
+    }
 
     res.status(200).json({
       success: true,
