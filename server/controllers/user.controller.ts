@@ -143,7 +143,7 @@ export const userLogout = CatchAsyncErrors(
 
     res.status(200).json({
       success: true,
-      message: "Logged out successfullys",
+      message: "Logged out successfully",
     });
   }
 );
