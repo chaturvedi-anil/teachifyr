@@ -7,6 +7,7 @@ import {
 } from "../schemas/auth.schema";
 import {
   activateUser,
+  getUserInfo,
   loginUser,
   registrationUser,
   updateAccessToken,
@@ -26,5 +27,6 @@ router.post("/login", validateRequest(loginSchema), loginUser);
 ("");
 router.get("/logout", isAtuhenticated, userLogout);
 router.get("/refresh", updateAccessToken);
+router.get("/profile", isAtuhenticated, getUserInfo);
 
 export default router;

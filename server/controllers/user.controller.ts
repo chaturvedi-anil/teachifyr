@@ -10,6 +10,7 @@ import {
   sendToken,
 } from "../utils/jwt";
 import { redis } from "../utils/redis";
+import { getUserById } from "../service/user.service";
 
 //---------------------Types.........-------------------------------------------------------------
 interface IRegistrationBody {
@@ -132,7 +133,6 @@ export const loginUser = CatchAsyncErrors(
     if (!isPasswordMatch) {
       return next(new ErrorHandler(`Invalid email or password`, 401));
     }
-
     sendToken(user, 200, res);
   }
 );
@@ -197,5 +197,15 @@ export const updateAccessToken = CatchAsyncErrors(
       success: true,
       accessToken,
     });
+  }
+);
+
+// get user info
+export const getUserInfo = CatchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?._id;
+    if (userId) {
+      getUserById(userId, res);
+    }
   }
 );
