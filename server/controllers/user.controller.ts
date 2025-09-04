@@ -33,6 +33,11 @@ interface ILoginRequest {
   password: string;
 }
 
+interface ISocialAuth {
+  name: string;
+  email: string;
+  avatar: string;
+}
 //------------------------------Controller-------------------------------------------------------
 export const registrationUser = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -206,6 +211,22 @@ export const getUserInfo = CatchAsyncErrors(
     const userId = req.user?._id;
     if (userId) {
       getUserById(userId, res);
+    }
+  }
+);
+
+// social auth
+export const socilaAuth = CatchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { name, email, avatar } = req.body as ISocialAuth;
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      const newUser = await userModel.create({ name, email, avatar });
+      sendToken(newUser, 200, res);
+    } else {
+      sendToken(user, 200, res);
     }
   }
 );

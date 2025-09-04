@@ -10,6 +10,7 @@ import {
   getUserInfo,
   loginUser,
   registrationUser,
+  socilaAuth,
   updateAccessToken,
   userLogout,
 } from "../controllers/user.controller";
@@ -28,5 +29,5 @@ router.post("/login", validateRequest(loginSchema), loginUser);
 router.get("/logout", isAtuhenticated, userLogout);
 router.get("/refresh", updateAccessToken);
 router.get("/profile", isAtuhenticated, getUserInfo);
-
+router.post("/social-auth", socilaAuth);
 export default router;
